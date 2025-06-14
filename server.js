@@ -2,7 +2,6 @@ const cors = require("cors");
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 
 // Auth and Admin middleware
 const auth = require('./middleware/auth');
@@ -17,7 +16,14 @@ const adminPanelRoutes = require('./routes/adminPanelRoutes');
 
 const app = express();
 
-app.use(cors());
+// ✅ Allow CORS only from Netlify frontend
+app.use(
+  cors({
+    origin: "https://tether-frontend.netlify.app",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
